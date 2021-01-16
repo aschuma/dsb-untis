@@ -1,0 +1,149 @@
+{
+  "Resultcode": 0,
+  "ResultStatusInfo": "",
+  "StartIndex": -1,
+  "ResultMenuItems": [
+    {
+      "Index": 0,
+      "IconLink": "",
+      "Title": "Inhalte",
+      "Childs": [
+        {
+          "Index": 0,
+          "IconLink": "https://app.dsbcontrol.de/static/androidicons/Timetable.png",
+          "Title": "Pläne",
+          "Root": {
+            "Id": "",
+            "Date": "",
+            "Title": "",
+            "Detail": "",
+            "Tags": "",
+            "ConType": 0,
+            "Prio": 0,
+            "Index": 0,
+            "Childs": [
+              {
+                "Id": "4f12-b474-fde232d4459d",
+                "Date": "15.01.2021 17:33",
+                "Title": "DSBmobile_S_heute",
+                "Detail": "",
+                "Tags": "",
+                "ConType": 2,
+                "Prio": 0,
+                "Index": 0,
+                "Childs": [
+                  {
+                    "Id": "4f12-b474-fde232d4459d",
+                    "Date": "15.01.2021 17:33",
+                    "Title": "subst_001.htm",
+                    "Detail": "https://app.dsbcontrol.de/data/bf51-49c8-8869-093e9fd29285/573a8032-eec7-4f12-b474-fde232d4459d/subst_001.htm",
+                    "Tags": "",
+                    "ConType": 3,
+                    "Prio": 0,
+                    "Index": 0,
+                    "Childs": [],
+                    "Preview": "bf51-49c8-8869-093e9fd29285/eec7-4f12-b474-fde232d4459d/preview.png"
+                  }
+                ],
+                "Preview": ""
+              },
+              {
+                "Id": "6296-4ab6-8eb4-0f6b15826f50",
+                "Date": "15.01.2021 17:33",
+                "Title": "DSBmobile_S_morgen",
+                "Detail": "",
+                "Tags": "",
+                "ConType": 2,
+                "Prio": 0,
+                "Index": 0,
+                "Childs": [
+                  {
+                    "Id": "4ab6-8eb4-0f6b15826f50",
+                    "Date": "15.01.2021 17:33",
+                    "Title": "subst_001.htm",
+                    "Detail": "https://app.dsbcontrol.de/data/bf51-49c8-8869-093e9fd29285/299dbe8d-6296-4ab6-8eb4-0f6b15826f50/subst_001.htm",
+                    "Tags": "",
+                    "ConType": 3,
+                    "Prio": 0,
+                    "Index": 0,
+                    "Childs": [],
+                    "Preview": "49c8-8869-093e9fd29285/6296-4ab6-8eb4-0f6b15826f50/preview.png"
+                  },
+                  {
+                    "Id": "4ab6-8eb4-0f6b15826f50",
+                    "Date": "15.01.2021 17:33",
+                    "Title": "subst_001.htm",
+                    "Detail": "https://app.dsbcontrol.de/data/bf51-49c8-8869-093e9fd29285/299dbe8d-6296-4ab6-8eb4-0f6b15826f50/subst_002.htm",
+                    "Tags": "",
+                    "ConType": 3,
+                    "Prio": 0,
+                    "Index": 0,
+                    "Childs": [],
+                    "Preview": "49c8-8869-093e9fd29285/6296-4ab6-8eb4-0f6b15826f50/preview.png"
+                  }
+                ],
+                "Preview": ""
+              }
+            ],
+            "Preview": ""
+          },
+          "Childs": [],
+          "MethodName": "timetable",
+          "NewCount": 0,
+          "SaveLastState": true
+        }
+      ],
+      "MethodName": "",
+      "NewCount": 0,
+      "SaveLastState": true
+    },
+    {
+      "Index": 1,
+      "IconLink": "",
+      "Title": "Sonstiges",
+      "Childs": [
+        {
+          "Index": 0,
+          "IconLink": "https://app.dsbcontrol.de/static/androidicons/Settings.png",
+          "Title": "Einstellungen",
+          "Childs": [],
+          "MethodName": "settings",
+          "NewCount": 0,
+          "SaveLastState": false
+        },
+        {
+          "Index": 1,
+          "IconLink": "https://app.dsbcontrol.de/static/androidicons/Feedback.png",
+          "Title": "Feedback",
+          "Childs": [],
+          "MethodName": "feedback",
+          "NewCount": 0,
+          "SaveLastState": false
+        },
+        {
+          "Index": 2,
+          "IconLink": "https://app.dsbcontrol.de/static/androidicons/About.png",
+          "Title": "Info",
+          "Childs": [],
+          "MethodName": "about",
+          "NewCount": 0,
+          "SaveLastState": false
+        },
+        {
+          "Index": 3,
+          "IconLink": "https://app.dsbcontrol.de/static/androidicons/Logout.png",
+          "Title": "Logout",
+          "Childs": [],
+          "MethodName": "logout",
+          "NewCount": 0,
+          "SaveLastState": false
+        }
+      ],
+      "MethodName": "",
+      "NewCount": 0,
+      "SaveLastState": true
+    }
+  ],
+  "ChannelType": 0,
+  "MandantId": "41d7-8ba1-d759ca4bf56b"
+}

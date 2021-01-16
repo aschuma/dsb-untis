@@ -1,0 +1,5 @@
+```
+const untis = new DsbUntis(username, password);
+
+untis.fetch().then((data) => console.log(JSON.stringify(data)));
+```
