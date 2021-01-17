@@ -1,11 +1,21 @@
 {
   "name": "dsb-untis",
-  "version": "1.0.0",
+  "version": "0.0.5",
   "description": "",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aschuma/dsb-untis.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "keywords": [
+    "dsb", "untis", "untis-timetable", "nodejs", "javascript", "client"
+  ],
   "author": "aschuma (https://github.com/aschuma)",
   "license": "MIT",
   "dependencies": {
