@@ -3,13 +3,19 @@ const fetch = require("node-fetch");
 const jsdom = require("jsdom");
 const jquery = require("jquery");
 
-function parseDate(dateString /* DD.MM.YYYY HH:mm */ ) {
+function parseDate(dateString /* DD.MM.YYYY HH:mm */) {
   let date = null;
   const rawChunks = `${dateString}`.split(/[\.| |:]/);
   if (rawChunks.length == 5) {
     try {
-      const chunks = rawChunks.map(raw=>parseInt(raw.replace(/^0+/, '')));
-      date = new Date(chunks[2], chunks[1]-1, chunks[0], chunks[3], chunks[4]);
+      const chunks = rawChunks.map((raw) => parseInt(raw.replace(/^0+/, "")));
+      date = new Date(
+        chunks[2],
+        chunks[1] - 1,
+        chunks[0],
+        chunks[3],
+        chunks[4]
+      );
     } catch (e) {}
   }
   return date;
@@ -22,7 +28,11 @@ function extractTimetableUrls(dsbNode, fn) {
     if (fn(dsbNode)) {
       answer = [
         ...answer,
-        { url: dsbNode.Detail, date: parseDate(dsbNode.Date), dateString: dsbNode.Date },
+        {
+          url: dsbNode.Detail,
+          date: parseDate(dsbNode.Date),
+          dateString: dsbNode.Date,
+        },
       ];
     } else {
       if (Array.isArray(dsbNode)) {
@@ -38,7 +48,10 @@ function extractTimetableUrls(dsbNode, fn) {
         answer = [...answer, ...extractTimetableUrls(dsbNode.Childs, fn)];
       }
       if (dsbNode.ResultMenuItems) {
-        answer = [...answer, ...extractTimetableUrls(dsbNode.ResultMenuItems, fn)];
+        answer = [
+          ...answer,
+          ...extractTimetableUrls(dsbNode.ResultMenuItems, fn),
+        ];
       }
     }
   }
@@ -99,6 +112,22 @@ function parseUntisTimetableHtml(html) {
   return table;
 }
 
+function flatten(table) {
+  let currentClass = "";
+  return table
+    .map((cells) => {
+      let mappedCells = cells;
+      if (cells.length == 1) {
+        currentClass = cells[0];
+        mappedCells = null;
+      } else {
+        mappedCells = [currentClass, ...mappedCells];
+      }
+      return mappedCells;
+    })
+    .filter((cells) => cells != null);
+}
+
 class DsbUntis {
   /**
    * @param {String|Number} username
@@ -119,16 +148,18 @@ class DsbUntis {
 
   /**
    * Fetch data
+   * @param {Boolean} [flat=false] In the browser just a boolean and in node a path string. If you don't want to use any cache just use undefined, null or false.
    * @returns {Promise.<Object>}
    */
-  async fetch() {
+  async fetch(flat = false) {
     const dsbNodes = await this.dsb.fetch();
     const urlList = extractTimetableUrls(dsbNodes, isTimetableNode);
     const timetableHtmlList = await fetchTimetableHtml(urlList);
+    const postprocessor = flat ? flatten : (id) => id;
     const data = timetableHtmlList.map((timetableHtml) => ({
       date: timetableHtml.date,
       dateString: timetableHtml.dateString,
-      table: parseUntisTimetableHtml(timetableHtml.html),
+      table: postprocessor(parseUntisTimetableHtml(timetableHtml.html)),
     }));
     return data;
   }
