@@ -148,7 +148,7 @@ class DsbUntis {
 
   /**
    * Fetch data
-   * @param {Boolean} [flat=false] In the browser just a boolean and in node a path string. If you don't want to use any cache just use undefined, null or false.
+   * @param {Boolean} [flat=false] flatten the result table 
    * @returns {Promise.<Object>}
    */
   async fetch(flat = false) {
