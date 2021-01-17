@@ -14,11 +14,17 @@
     "registry": "https://registry.npmjs.org"
   },
   "keywords": [
-    "dsb", "untis", "untis-timetable", "nodejs", "javascript", "client"
+    "dsb",
+    "untis",
+    "untis-timetable",
+    "nodejs",
+    "javascript",
+    "client"
   ],
   "author": "aschuma (https://github.com/aschuma)",
   "license": "MIT",
   "dependencies": {
+    "axios": "0.21.1",
     "dsbapi": "4.0.4",
     "jquery": "3.5.1",
     "jsdom": "16.4.0",
