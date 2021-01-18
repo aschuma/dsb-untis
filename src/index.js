@@ -153,15 +153,19 @@ class DsbUntis {
    */
   async fetch(flat = false) {
     const dsbNodes = await this.dsb.fetch();
-    const urlList = extractTimetableUrls(dsbNodes, isTimetableNode);
-    const timetableHtmlList = await fetchTimetableHtml(urlList);
-    const postprocessor = flat ? flatten : (id) => id;
-    const data = timetableHtmlList.map((timetableHtml) => ({
-      date: timetableHtml.date,
-      dateString: timetableHtml.dateString,
-      table: postprocessor(parseUntisTimetableHtml(timetableHtml.html)),
-    }));
-    return data;
+    if (dsbNodes.Resultcode == 0) { 
+      const urlList = extractTimetableUrls(dsbNodes, isTimetableNode);
+      const timetableHtmlList = await fetchTimetableHtml(urlList);
+      const postprocessor = flat ? flatten : (id) => id;
+      const data = timetableHtmlList.map((timetableHtml) => ({
+        date: timetableHtml.date,
+        dateString: timetableHtml.dateString,
+        table: postprocessor(parseUntisTimetableHtml(timetableHtml.html)),
+      }));
+      return data;
+    } else {
+      throw Error(dsbNodes.ResultStatusInfo);
+    }
   }
 }
 
