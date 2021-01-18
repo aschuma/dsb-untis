@@ -2,6 +2,27 @@ const DSB = require("dsbapi");
 const fetch = require("node-fetch");
 const jsdom = require("jsdom");
 const jquery = require("jquery");
+const http = require("http");
+
+// -----------------------------------------------------------
+// Credits to Jonathan Lonowski, see
+// https://stackoverflow.com/questions/18391212/is-it-not-possible-to-stringify-an-error-using-json-stringify
+if (!("toJSON" in Error.prototype)) {
+  Object.defineProperty(Error.prototype, "toJSON", {
+    value: function () {
+      var alt = {};
+
+      Object.getOwnPropertyNames(this).forEach(function (key) {
+        alt[key] = this[key];
+      }, this);
+
+      return alt;
+    },
+    configurable: true,
+    writable: true,
+  });
+}
+// -----------------------------------------------------------
 
 function parseDate(dateString /* DD.MM.YYYY HH:mm */) {
   let date = null;
@@ -148,12 +169,12 @@ class DsbUntis {
 
   /**
    * Fetch data
-   * @param {Boolean} [flat=false] flatten the result table 
+   * @param {Boolean} [flat=false] flatten the result table
    * @returns {Promise.<Object>}
    */
   async fetch(flat = false) {
     const dsbNodes = await this.dsb.fetch();
-    if (dsbNodes.Resultcode == 0) { 
+    if (dsbNodes.Resultcode == 0) {
       const urlList = extractTimetableUrls(dsbNodes, isTimetableNode);
       const timetableHtmlList = await fetchTimetableHtml(urlList);
       const postprocessor = flat ? flatten : (id) => id;
@@ -166,6 +187,29 @@ class DsbUntis {
     } else {
       throw Error(dsbNodes.ResultStatusInfo);
     }
+  }
+
+  /**
+   * Start a HTTP server
+   * @param {Number} [port=8080] server port
+   * @param {Boolean} [flat=false] flatten the result table
+   * @returns {Promise.<Object>}
+   */
+  listen(port = 8080, flat = false) {
+    const requestListener = (req, res) => {    
+      res.setHeader("Content-Type", "application/json;charset=utf-8");
+      this.fetch(flat)
+        .then((data) => {
+          res.writeHead(200);
+          res.end(JSON.stringify(data));
+        })
+        .catch((e) => {
+          res.writeHead(500, e.message);
+          res.end(JSON.stringify(e));
+        });
+    };
+
+    http.createServer(requestListener).listen(port);
   }
 }
 
