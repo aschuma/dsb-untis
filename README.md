@@ -18,6 +18,21 @@ dsbUntis.fetch().then((data) => {
 });
 ```
 
+## Server Mode
+
+Start a HTTP server providing the data:
+
+```javascript
+const DsbUntis = require('dsb-untis')
+
+const username = "165931";
+const password = "secret";
+
+const dsbUntis = new DsbUntis(username, password);
+dsbUntis.listen(9000);
+```
+
+
 ## Example result
 
 ```json
@@ -236,16 +251,3 @@ dsbUntis.fetch().then((data) => {
 ]
 ```
 
-## Server Mode
-
-Start a HTTP server providing the data:
-
-```javascript
-const DsbUntis = require('dsb-untis')
-
-const username = "165931";
-const password = "secret";
-
-const dsbUntis = new DsbUntis(username, password);
-dsbUntis.listen(9000);
-```
