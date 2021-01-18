@@ -6,21 +6,21 @@
 
 ## Basic Usage
 
-```
+```javascript
 const DsbUntis = require('dsb-untis')
 
 const username = "165931";
 const password = "secret";
 
-const client = new DsbUntis(username, password);
-client.fetch().then((data) => { 
+const dsbUntis = new DsbUntis(username, password);
+dsbUntis.fetch().then((data) => { 
     console.log(JSON.stringify(data))
 });
 ```
 
 ## Example result
 
-```
+```json
 [
   {
     "date": "2021-01-15T16:33:00.000Z",
@@ -234,4 +234,18 @@ client.fetch().then((data) => {
     ]
   }
 ]
+```
+
+## Server Mode
+
+Start a HTTP server providing the data:
+
+```javascript
+const DsbUntis = require('dsb-untis')
+
+const username = "165931";
+const password = "secret";
+
+const dsbUntis = new DsbUntis(username, password);
+dsbUntis.listen(9000);
 ```
