@@ -33,7 +33,19 @@ dsbUntis.listen(9000);
 ```
 
 
-## Example result
+## Server Mode / Docker Image
+
+Supported platforms:
+
+* linux/amd64
+* linux/arm64
+* linux/arm/v7 (PI 4a)
+
+```shell
+docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="false"  -p 8080:8080  aschuma/dsb-untis:latest
+```
+
+## Example Result
 
 ```json
 [
