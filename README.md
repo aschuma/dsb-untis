@@ -32,7 +32,6 @@ const dsbUntis = new DsbUntis(username, password);
 dsbUntis.listen(9000);
 ```
 
-
 ## Server Mode / Docker Image
 
 Supported platforms:
@@ -262,4 +261,3 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
   }
 ]
 ```
-

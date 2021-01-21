@@ -4,6 +4,9 @@ const jsdom = require("jsdom");
 const jquery = require("jquery");
 const http = require("http");
 
+require('console-stamp')(console, 'HH:MM:ss.l');
+console.debug = () => {}
+
 // -----------------------------------------------------------
 // Credits to Jonathan Lonowski, see
 // https://stackoverflow.com/questions/18391212/is-it-not-possible-to-stringify-an-error-using-json-stringify
@@ -77,6 +80,8 @@ function extractTimetableUrls(dsbNode, fn) {
     }
   }
 
+  console.debug( "TimetableUrls", answer );
+
   return answer;
 }
 
@@ -84,13 +89,28 @@ function isTimetableNode(dsbNode) {
   return dsbNode.Detail && `${dsbNode.Detail}`.endsWith("htm");
 }
 
+// -----------------------------------------------------------
+// Credits to Marlon Bernardes
+// https://stackoverflow.com/questions/10623798/how-do-i-read-the-contents-of-a-node-js-stream-into-a-string-variable
+function iso8859_1_StreamToString (stream) {
+  const chunks = []
+  return new Promise((resolve, reject) => {
+    stream.on('data', chunk => chunks.push(chunk))
+    stream.on('error', reject)
+    stream.on('end', () => resolve(Buffer.concat(chunks).toString('latin1')))
+  })
+}
+// -----------------------------------------------------------
+
 function fetchTimetableHtml(urlList) {
+
   return Promise.all(
     urlList.map(
       (urlItem) =>
         new Promise((resolve, reject) => {
           fetch(urlItem.url)
-            .then((res) => res.text())
+            .then((res) => res.body)
+            .then(iso8859_1_StreamToString)
             .then((res) =>
               resolve({
                 ...urlItem,
@@ -126,10 +146,10 @@ function parseUntisTimetableHtml(html) {
       cell = "&nbsp;" == cell ? "" : cell;
       result.push(cell);
     }
-    // console.log(i + " #size=" + j + " -> ", result);
+    console.debug(i + " #size=" + j + " -> ", result);
     table.push(result);
   }
-  // console.log(i + " -> ", table);
+  console.debug(i + " -> ", table);
   return table;
 }
 
@@ -202,10 +222,12 @@ class DsbUntis {
         .then((data) => {
           res.writeHead(200);
           res.end(JSON.stringify(data));
+          console.log(200 , "OK");
         })
         .catch((e) => {
           res.writeHead(500, e.message);
           res.end(JSON.stringify(e));
+          console.log(500 , e.message);
         });
     };
 
