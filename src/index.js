@@ -1,11 +1,11 @@
 const DSB = require("dsbapi");
-const fetch = require("node-fetch");
-const jsdom = require("jsdom");
-const jquery = require("jquery");
 const http = require("http");
+const parseTimetableHtml = require("./timetableHtmlParser");
+const fetchTimetables = require("./timetableHtmlFetcher");
+const resolveTimetableUrls = require("./timetableUrlResolver");
 
-require('console-stamp')(console, 'HH:MM:ss.l');
-console.debug = () => {}
+require("console-stamp")(console, "HH:MM:ss.l");
+console.debug = () => {};
 
 // -----------------------------------------------------------
 // Credits to Jonathan Lonowski, see
@@ -26,132 +26,6 @@ if (!("toJSON" in Error.prototype)) {
   });
 }
 // -----------------------------------------------------------
-
-function parseDate(dateString /* DD.MM.YYYY HH:mm */) {
-  let date = null;
-  const rawChunks = `${dateString}`.split(/[\.| |:]/);
-  if (rawChunks.length == 5) {
-    try {
-      const chunks = rawChunks.map((raw) => parseInt(raw.replace(/^0+/, "")));
-      date = new Date(
-        chunks[2],
-        chunks[1] - 1,
-        chunks[0],
-        chunks[3],
-        chunks[4]
-      );
-    } catch (e) {}
-  }
-  return date;
-}
-
-function extractTimetableUrls(dsbNode, fn) {
-  let answer = [];
-
-  if (dsbNode) {
-    if (fn(dsbNode)) {
-      answer = [
-        ...answer,
-        {
-          url: dsbNode.Detail,
-          date: parseDate(dsbNode.Date),
-          dateString: dsbNode.Date,
-        },
-      ];
-    } else {
-      if (Array.isArray(dsbNode)) {
-        answer = [
-          ...answer,
-          ...dsbNode.flatMap((item) => extractTimetableUrls(item, fn)),
-        ];
-      }
-      if (dsbNode.Root) {
-        answer = [...answer, ...extractTimetableUrls(dsbNode.Root, fn)];
-      }
-      if (dsbNode.Childs) {
-        answer = [...answer, ...extractTimetableUrls(dsbNode.Childs, fn)];
-      }
-      if (dsbNode.ResultMenuItems) {
-        answer = [
-          ...answer,
-          ...extractTimetableUrls(dsbNode.ResultMenuItems, fn),
-        ];
-      }
-    }
-  }
-
-  console.debug( "TimetableUrls", answer );
-
-  return answer;
-}
-
-function isTimetableNode(dsbNode) {
-  return dsbNode.Detail && `${dsbNode.Detail}`.endsWith("htm");
-}
-
-// -----------------------------------------------------------
-// Credits to Marlon Bernardes
-// https://stackoverflow.com/questions/10623798/how-do-i-read-the-contents-of-a-node-js-stream-into-a-string-variable
-function iso8859_1_StreamToString (stream) {
-  const chunks = []
-  return new Promise((resolve, reject) => {
-    stream.on('data', chunk => chunks.push(chunk))
-    stream.on('error', reject)
-    stream.on('end', () => resolve(Buffer.concat(chunks).toString('latin1')))
-  })
-}
-// -----------------------------------------------------------
-
-function fetchTimetableHtml(urlList) {
-
-  return Promise.all(
-    urlList.map(
-      (urlItem) =>
-        new Promise((resolve, reject) => {
-          fetch(urlItem.url)
-            .then((res) => res.body)
-            .then(iso8859_1_StreamToString)
-            .then((res) =>
-              resolve({
-                ...urlItem,
-                html: res,
-              })
-            )
-            .catch((e) => {
-              reject(e);
-            });
-        })
-    )
-  );
-}
-
-function parseUntisTimetableHtml(html) {
-  const { JSDOM } = jsdom;
-  const dom = new JSDOM(html);
-  const $ = jquery(dom.window);
-
-  var items = $("table.mon_list tr");
-  const table = [];
-  for (var i = 0; i < items.length; i++) {
-    const result = [];
-    const cells = [
-      ...$($(items)[i]).children("th"),
-      ...$($(items)[i]).children("td"),
-    ];
-    for (var j = 0; j < cells.length; j++) {
-      const rawCell = $(cells[j]).html();
-      const strikeCell = $(cells[j]).find("strike").html();
-      const spanCell = $(cells[j]).find("span").html();
-      let cell = spanCell || strikeCell || rawCell;
-      cell = "&nbsp;" == cell ? "" : cell;
-      result.push(cell);
-    }
-    console.debug(i + " #size=" + j + " -> ", result);
-    table.push(result);
-  }
-  console.debug(i + " -> ", table);
-  return table;
-}
 
 function flatten(table) {
   let currentClass = "";
@@ -195,13 +69,13 @@ class DsbUntis {
   async fetch(flat = false) {
     const dsbNodes = await this.dsb.fetch();
     if (dsbNodes.Resultcode == 0) {
-      const urlList = extractTimetableUrls(dsbNodes, isTimetableNode);
-      const timetableHtmlList = await fetchTimetableHtml(urlList);
+      const urlList = resolveTimetableUrls(dsbNodes);
+      const timetableHtmlList = await fetchTimetables(urlList);
       const postprocessor = flat ? flatten : (id) => id;
       const data = timetableHtmlList.map((timetableHtml) => ({
         date: timetableHtml.date,
         dateString: timetableHtml.dateString,
-        table: postprocessor(parseUntisTimetableHtml(timetableHtml.html)),
+        table: postprocessor(parseTimetableHtml(timetableHtml.html)),
       }));
       return data;
     } else {
@@ -213,21 +87,24 @@ class DsbUntis {
    * Start a HTTP server
    * @param {Number} [port=8080] server port
    * @param {Boolean} [flat=false] flatten the result table
-   * @returns {Promise.<Object>}
    */
   listen(port = 8080, flat = false) {
-    const requestListener = (req, res) => {    
+    const requestListener = (req, res) => {
       res.setHeader("Content-Type", "application/json;charset=utf-8");
       this.fetch(flat)
         .then((data) => {
           res.writeHead(200);
           res.end(JSON.stringify(data));
-          console.log(200 , "OK");
+          console.log(200, "OK");
         })
         .catch((e) => {
-          res.writeHead(500, e.message);
-          res.end(JSON.stringify(e));
-          console.log(500 , e.message);
+          try {
+            res.writeHead(500, e.message);
+            res.end(JSON.stringify(e));
+          } catch (e) {
+          } finally {
+            console.log(500, e.message);
+          }
         });
     };
 
