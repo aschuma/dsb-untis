@@ -29,6 +29,8 @@ function resolveUrls(dsbNode, fn = isTimetableNode) {
       answer = [
         ...answer,
         {
+          id: dsbNode.Id,
+          title: dsbNode.Title,
           url: dsbNode.Detail,
           date: parseDate(dsbNode.Date),
           dateString: dsbNode.Date,

@@ -53,11 +53,14 @@ class DsbUntis {
       const urlList = resolveTimetableUrls(dsbNodes);
       const timetableHtmlList = await fetchTimetables(urlList);
       const postprocessor = flat ? flatten : (id) => id;
-      const data = timetableHtmlList.map((timetableHtml) => ({
-        date: timetableHtml.date,
-        dateString: timetableHtml.dateString,
-        table: postprocessor(parseTimetableHtml(timetableHtml.html)),
-      }));
+      const data = timetableHtmlList.map((timetableHtml) => {
+        const answer = {
+          ...timetableHtml,
+          table: postprocessor(parseTimetableHtml(timetableHtml.html)),
+        };
+        delete answer.html;
+        return answer;
+      });
       return data;
     } else {
       throw Error(dsbNodes.ResultStatusInfo);
