@@ -62,7 +62,7 @@ const dsbUntis = new DsbUntis(username, password);
 const transform = (timetables) => postprocess(timetables, clazz);
 
 dsbUntis
-  .fetch(8080, flatFormat)
+  .fetch(flatFormat)
   .then(transform)
   .then((data) => {
     console.log(JSON.stringify(data));
