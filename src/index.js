@@ -5,7 +5,7 @@ const fetchTimetables = require("./timetableHtmlFetcher");
 const resolveTimetableUrls = require("./timetableUrlResolver");
 
 require("./jsonHelper")();
-require("console-stamp")(console, "HH:MM:ss.l");
+require("console-stamp")(console, "yyyy-MM-dd HH:mm:ss");
 console.debug = () => {};
 
 function flatten(table) {
