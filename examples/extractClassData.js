@@ -1,5 +1,5 @@
 /*
-  My actual use case: Retrieve the timetable changes of my son and show it on a LED matrix
+  My actual use case: Retrieve the timetable changes for my son and show it on a LED matrix
   (https://github.com/aschuma/max7219-led-matrix-clock-mqtt-display)
 */
 
