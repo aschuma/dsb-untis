@@ -3,7 +3,7 @@
   (https://github.com/aschuma/max7219-led-matrix-clock-mqtt-display)
 */
 
-function postprocess(timetables, clazz) {
+function extractClassRows(timetables, clazz) {
   const now = (() => {
     const d = new Date();
     d.setHours(12, 0, 0, 0);
@@ -17,13 +17,14 @@ function postprocess(timetables, clazz) {
     return `${d.getDate()}.${d.getMonth() + 1}.`;
   })();
 
-  console.debug("today", today);
-  console.debug("tomorrow", tomorrow);
+  console.log("timetables", JSON.stringify(timetables));
+  console.log("today", today);
+  console.log("tomorrow", tomorrow);
 
   const todayFilter = (row, index) =>
-    index === 0 || (row[0] == clazz && row[1] === today);
+    index > 0 && row[0] == clazz && row[1] === today;
   const tomorrowFilter = (row, index) =>
-    index === 0 || (row[0] === clazz && row[1] === tomorrow);
+    index > 0 && row[0] === clazz && row[1] === tomorrow;
 
   const filterItems = (items, filter) =>
     items
@@ -34,7 +35,7 @@ function postprocess(timetables, clazz) {
         };
         return answer;
       })
-      .filter((item) => item.table.length > 1);
+      .filter((item) => item.table.length > 0);
 
   const todayEntries = filterItems(timetables, todayFilter);
   const tomorrowEntries = filterItems(timetables, tomorrowFilter);
@@ -47,23 +48,30 @@ function postprocess(timetables, clazz) {
   return answer;
 }
 
+const flatMap = (list, fn) => list.reduce((acc, e) => [...acc, ...fn(e)], []);
 
+const collapse = (timetables) => {
+  return {
+    today: flatMap(timetables.today, (tt) => tt.table),
+    tomorrow: flatMap(timetables.tomorrow, (tt) => tt.table),
+  };
+};
 
-
-const clazz = "5b";
+const clazz = "5c";
 
 const DsbUntis = require("../src/index.js");
 
 const username = process.env.USERNAME || "username";
 const password = process.env.PASSWORD || "password";
-const flatFormat = "true" === process.env.FLATFORMAT;
+const flatFormat = true;
 
 const dsbUntis = new DsbUntis(username, password);
-const transform = (timetables) => postprocess(timetables, clazz);
+const transform = (timetables) => extractClassRows(timetables, clazz);
 
 dsbUntis
   .fetch(flatFormat)
   .then(transform)
+  .then(collapse)
   .then((data) => {
     console.log(JSON.stringify(data));
   });
