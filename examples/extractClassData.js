@@ -1,0 +1,69 @@
+/*
+  My actual use case: Retrieve the timetable changes of my son and show it on a LED matrix
+  (https://github.com/aschuma/max7219-led-matrix-clock-mqtt-display)
+*/
+
+function postprocess(timetables, clazz) {
+  const now = (() => {
+    const d = new Date();
+    d.setHours(12, 0, 0, 0);
+    return d;
+  })();
+
+  const today = (() => `${now.getDate()}.${now.getMonth() + 1}.`)();
+  const tomorrow = (() => {
+    const d = new Date(now);
+    d.setDate(d.getDate() + 1);
+    return `${d.getDate()}.${d.getMonth() + 1}.`;
+  })();
+
+  console.debug("today", today);
+  console.debug("tomorrow", tomorrow);
+
+  const todayFilter = (row, index) =>
+    index === 0 || (row[0] == clazz && row[1] === today);
+  const tomorrowFilter = (row, index) =>
+    index === 0 || (row[0] === clazz && row[1] === tomorrow);
+
+  const filterItems = (items, filter) =>
+    items
+      .map((item) => {
+        const answer = {
+          ...item,
+          table: item.table.filter((row, index) => filter(row, index)),
+        };
+        return answer;
+      })
+      .filter((item) => item.table.length > 1);
+
+  const todayEntries = filterItems(timetables, todayFilter);
+  const tomorrowEntries = filterItems(timetables, tomorrowFilter);
+
+  const answer = {
+    today: todayEntries,
+    tomorrow: tomorrowEntries,
+  };
+
+  return answer;
+}
+
+
+
+
+const clazz = "5b";
+
+const DsbUntis = require("../src/index.js");
+
+const username = process.env.USERNAME || "username";
+const password = process.env.PASSWORD || "password";
+const flatFormat = "true" === process.env.FLATFORMAT;
+
+const dsbUntis = new DsbUntis(username, password);
+const transform = (timetables) => postprocess(timetables, clazz);
+
+dsbUntis
+  .fetch(8080, flatFormat)
+  .then(transform)
+  .then((data) => {
+    console.log(JSON.stringify(data));
+  });
