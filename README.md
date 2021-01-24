@@ -39,7 +39,7 @@ Supported platforms:
 
 * linux/amd64
 * linux/arm64
-* linux/arm/v7 (PI 4a)
+* linux/arm/v7 (PI 4B)
 
 ```shell
 docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="false"  -p 8080:8080  aschuma/dsb-untis:latest
@@ -66,9 +66,9 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "Vertr. von / verlegt"
       ],
       ["6b"],
-      ["15.1.", "Fr", "E", "3 - 4", "Knt", "", "---", "E", "Entfall", ""],
+      ["15.1.", "Fr", "E", "3 - 4", "Kmt", "", "---", "E", "Entfall", ""],
       ["9c"],
-      ["15.1.", "Fr", "D", "6", "Nmr", "", "R109", "D", "Vertretung", ""]
+      ["15.1.", "Fr", "D", "6", "Nlr", "", "R109", "D", "Vertretung", ""]
     ]
   },
   {
@@ -100,7 +100,7 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "",
         "MuS",
         "Mu",
-        "Kfn",
+        "Kfm",
         "Vertretung",
         ""
       ],
@@ -111,11 +111,11 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "7a",
         "D",
         "1 - 2",
-        "Clm",
+        "Cla",
         "",
         "R008",
         "D",
-        "Kfn",
+        "Kfm",
         "Vertretung",
         ""
       ],
@@ -126,11 +126,11 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "9a, 9b, 9c",
         "EvR",
         "3 - 4",
-        "Btz",
+        "Btl",
         "",
         "---",
         "EvR",
-        "Btz",
+        "Btl",
         "Entfall",
         ""
       ],
@@ -141,11 +141,11 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "9a, 9b, 9c",
         "EvR",
         "3 - 4",
-        "Btz",
+        "Bl",
         "",
         "---",
         "EvR",
-        "Btz",
+        "Btl",
         "Entfall",
         ""
       ],
@@ -156,11 +156,11 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "9a, 9b, 9c",
         "EvR",
         "3 - 4",
-        "Btz",
+        "Btl",
         "",
         "---",
         "EvR",
-        "Btz",
+        "Btl",
         "Entfall",
         ""
       ],
@@ -175,7 +175,7 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "",
         "---",
         "EvR",
-        "Btz",
+        "Btl",
         "Entfall",
         ""
       ],
@@ -185,7 +185,7 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "10a",
         "Mu",
         "5",
-        "Tr�",
+        "Trä",
         "",
         "MuS",
         "Mu",
@@ -200,11 +200,11 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "10a, 10b, 10c",
         "EvR",
         "1 - 2",
-        "Btz",
+        "Btl",
         "",
         "---",
         "EvR",
-        "Btz",
+        "Btl",
         "Entfall",
         ""
       ]
@@ -235,7 +235,7 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "10a, 10b, 10c",
         "EvR",
         "1 - 2",
-        "Btz",
+        "Btl",
         "",
         "---",
         "EvR",
@@ -250,11 +250,11 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "Jg2",
         "er",
         "8 - 9",
-        "Btz",
+        "Btl",
         "",
         "---",
         "er",
-        "Btz",
+        "Btl",
         "Entfall",
         ""
       ]
