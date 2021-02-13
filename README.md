@@ -3,7 +3,7 @@
 [![downloads](https://img.shields.io/npm/dm/dsb-untis.svg?style=flat-square)](http://npm-stat.com/charts.html?package=dsb-untis&from=2021-01-01)
 [![MIT License](https://img.shields.io/npm/l/dsb-untis.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 
-# DSB crawler and Untis's HTML parser / REST server
+# DSB crawler and Untis's HTML parser / REST service
 
 ## Basic Usage
 
