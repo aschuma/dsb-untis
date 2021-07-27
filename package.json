@@ -26,7 +26,7 @@
   "dependencies": {
     "axios": "0.21.1",
     "console-stamp": "0.2.9",
-    "dsbapi": "4.0.4",
+    "dsbapi": "4.1.0",
     "jquery": "3.5.1",
     "jsdom": "16.4.0",
     "node-fetch": "2.6.1"
