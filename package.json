@@ -24,11 +24,11 @@
   "author": "aschuma (https://github.com/aschuma)",
   "license": "MIT",
   "dependencies": {
-    "axios": "0.21.2",
-    "console-stamp": "3.0.3",
-    "dsbapi": "4.1.0",
-    "jquery": "3.5.1",
-    "jsdom": "16.4.0",
-    "node-fetch": "2.6.1"
+    "axios": "0.26.1",
+    "console-stamp": "3.0.4",
+    "dsbapi": "4.1.1",
+    "jquery": "3.6.0",
+    "jsdom": "19.0.0",
+    "node-fetch": "2.6.7"
   }
 }
