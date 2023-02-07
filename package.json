@@ -1,6 +1,6 @@
 {
   "name": "dsb-untis",
-  "version": "v0.4.3",
+  "version": "v0.5.0",
   "description": "DSB Untis timetable client/proxy server",
   "main": "src/index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "axios": "0.26.1",
     "console-stamp": "3.0.4",
     "dsbapi": "4.1.1",
-    "jquery": "3.6.0",
+    "jquery": "3.6.3",
     "jsdom": "19.0.0",
     "node-fetch": "2.6.7"
   }
