@@ -54,9 +54,11 @@ class DsbUntis {
       const timetableHtmlList = await fetchTimetables(urlList);
       const postprocessor = flat ? flatten : (id) => id;
       const data = timetableHtmlList.map((timetableHtml) => {
+        const { header, table } = parseTimetableHtml(timetableHtml.html);
         const answer = {
           ...timetableHtml,
-          table: postprocessor(parseTimetableHtml(timetableHtml.html)),
+          header,
+          table: postprocessor(table),
         };
         delete answer.html;
         return answer;
