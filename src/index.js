@@ -25,9 +25,9 @@ class DsbUntis {
    * @param {Object.<String, (String|Number|Function|Array)>} configuration
    * @returns {Promise.<Object>}
    */
-  async fetch(configuration = {extractors: [buildInHtmlExtractors.extractorTableMonListFlat]}) {
+  async fetch(configuration = {extractors: [buildInHtmlExtractors.extractorTableMonList]}) {
 
-    const {extractors = [buildInHtmlExtractors.extractorTableMonListFlat]} = configuration;
+    const {extractors = [buildInHtmlExtractors.extractorTableMonList]} = configuration;
     const buildInHtmlExtractorNames = Object.keys(buildInHtmlExtractors);
 
     console.debug("Configured extractors:", extractors);
@@ -71,7 +71,7 @@ class DsbUntis {
    * @param {Number} [port=8080] server port
    * @param {Object.<String, (String|Number|Function|Array)>} configuration
    */
-  listen(port = 8080, configuration = {extractors: [buildInHtmlExtractors.extractorTableMonListFlat]}) {
+  listen(port = 8080, configuration = {extractors: [buildInHtmlExtractors.extractorTableMonList]}) {
 
     require("console-stamp")(console, "yyyy-MM-dd HH:mm:ss");
 
