@@ -1,28 +1,12 @@
 const DSB = require("dsbapi");
 const http = require("http");
-const parseTimetableHtml = require("./timetableHtmlParser");
+const buildInHtmlExtractors = require("./timetableHtmlExtractors/index")
 const fetchTimetables = require("./timetableHtmlFetcher");
 const resolveTimetableUrls = require("./timetableUrlResolver");
 
 require("./jsonHelper")();
-require("console-stamp")(console, "yyyy-MM-dd HH:mm:ss");
-console.debug = () => {};
-
-function flatten(table) {
-  let currentClass = "";
-  return table
-    .map((cells) => {
-      let mappedCells = cells;
-      if (cells.length == 1) {
-        currentClass = cells[0];
-        mappedCells = null;
-      } else {
-        mappedCells = [currentClass, ...mappedCells];
-      }
-      return mappedCells;
-    })
-    .filter((cells) => cells != null);
-}
+console.debug = () => {
+};
 
 class DsbUntis {
   /**
@@ -32,31 +16,45 @@ class DsbUntis {
    * @param {String|Boolean} [cache=false] In the browser just a boolean and in node a path string. If you don't want to use any cache just use undefined, null or false.
    * @param {Axios} [axios=require('axios')] Pass your custom axios instance if you want.
    */
-  constructor(
-    username,
-    password,
-    cookies = "",
-    cache = false,
-    axios = require("axios")
-  ) {
+  constructor(username, password, cookies = "", cache = false, axios = require("axios")) {
     this.dsb = new DSB(username, password, cookies, cache, axios);
   }
 
   /**
    * Fetch data
-   * @param {Boolean} [flat=false] flatten the result table
+   * @param {Object.<String, (String|Number|Function|Array)>} configuration
    * @returns {Promise.<Object>}
    */
-  async fetch(flat = false) {
+  async fetch(configuration = {extractors: [buildInHtmlExtractors.extractorTableMonListFlat]}) {
+
+    const {extractors = [buildInHtmlExtractors.extractorTableMonListFlat]} = configuration;
+    const buildInHtmlExtractorNames = Object.keys(buildInHtmlExtractors);
+
+    console.debug("Configured extractors:", extractors);
+    console.debug("Available extractors:", buildInHtmlExtractorNames);
+
+    const resolvedExtractors = extractors.reduce((acc, functionOrName) => {
+
+      if (typeof functionOrName === 'string') {
+        if (buildInHtmlExtractorNames.includes(functionOrName)) {
+          acc.push(buildInHtmlExtractors[functionOrName]);
+        }
+      } else if (typeof functionOrName === 'function') {
+        acc.push(functionOrName);
+      }
+      return acc;
+    }, []);
+
+    console.debug("Resolved extractors:", resolvedExtractors);
+
     const dsbNodes = await this.dsb.fetch();
-    if (dsbNodes.Resultcode == 0) {
+    if (dsbNodes.Resultcode === 0) {
       const urlList = resolveTimetableUrls(dsbNodes);
       const timetableHtmlList = await fetchTimetables(urlList);
-      const postprocessor = flat ? flatten : (id) => id;
       const data = timetableHtmlList.map((timetableHtml) => {
+        const extractedData = resolvedExtractors.reduce((acc, extractor) => ({...acc, ...extractor(timetableHtml.html)}), {});
         const answer = {
-          ...timetableHtml,
-          table: postprocessor(parseTimetableHtml(timetableHtml.html)),
+          ...timetableHtml, ...extractedData,
         };
         delete answer.html;
         return answer;
@@ -67,15 +65,19 @@ class DsbUntis {
     }
   }
 
+
   /**
    * Start a HTTP server
    * @param {Number} [port=8080] server port
-   * @param {Boolean} [flat=false] flatten the result table
+   * @param {Object.<String, (String|Number|Function|Array)>} configuration
    */
-  listen(port = 8080, flat = false) {
+  listen(port = 8080, configuration = {extractors: [buildInHtmlExtractors.extractorTableMonListFlat]}) {
+
+    require("console-stamp")(console, "yyyy-MM-dd HH:mm:ss");
+
     const requestListener = (req, res) => {
       res.setHeader("Content-Type", "application/json;charset=utf-8");
-      this.fetch(flat)
+      this.fetch(configuration)
         .then((data) => {
           res.writeHead(200);
           res.end(JSON.stringify(data));

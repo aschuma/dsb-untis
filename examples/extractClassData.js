@@ -63,13 +63,12 @@ const DsbUntis = require("../src/index.js");
 
 const username = process.env.USERNAME || "username";
 const password = process.env.PASSWORD || "password";
-const flatFormat = true;
 
 const dsbUntis = new DsbUntis(username, password);
 const transform = (timetables) => extractClassRows(timetables, clazz);
 
 dsbUntis
-  .fetch(flatFormat)
+  .fetch({extractors :["extractorTableMonListFlat"]})
   .then(transform)
   .then(collapse)
   .then((data) => {

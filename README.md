@@ -1,4 +1,3 @@
-
 [![version](https://img.shields.io/npm/v/dsb-untis.svg?style=flat-square)](http://npm.im/dsb-untis)
 [![downloads](https://img.shields.io/npm/dm/dsb-untis.svg?style=flat-square)](http://npm-stat.com/charts.html?package=dsb-untis&from=2021-01-01)
 [![MIT License](https://img.shields.io/npm/l/dsb-untis.svg?style=flat-square)](http://opensource.org/licenses/MIT)
@@ -14,8 +13,8 @@ const username = "165931";
 const password = "secret";
 
 const dsbUntis = new DsbUntis(username, password);
-dsbUntis.fetch().then((data) => { 
-    console.log(JSON.stringify(data))
+dsbUntis.fetch().then((data) => {
+  console.log(JSON.stringify(data))
 });
 ```
 
@@ -65,10 +64,36 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "Art",
         "Vertr. von / verlegt"
       ],
-      ["6b"],
-      ["15.1.", "Fr", "E", "3 - 4", "Kmt", "", "---", "E", "Entfall", ""],
-      ["9c"],
-      ["15.1.", "Fr", "D", "6", "Nlr", "", "R109", "D", "Vertretung", ""]
+      [
+        "6b"
+      ],
+      [
+        "15.1.",
+        "Fr",
+        "E",
+        "3 - 4",
+        "Kmt",
+        "",
+        "---",
+        "E",
+        "Entfall",
+        ""
+      ],
+      [
+        "9c"
+      ],
+      [
+        "15.1.",
+        "Fr",
+        "D",
+        "6",
+        "Nlr",
+        "",
+        "R109",
+        "D",
+        "Vertretung",
+        ""
+      ]
     ]
   },
   {
@@ -89,7 +114,9 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "Art",
         "Vertr. von / verlegt"
       ],
-      ["6b"],
+      [
+        "6b"
+      ],
       [
         "18.1.",
         "Mo",
@@ -104,7 +131,9 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "Vertretung",
         ""
       ],
-      ["7a"],
+      [
+        "7a"
+      ],
       [
         "18.1.",
         "Mo",
@@ -119,7 +148,9 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "Vertretung",
         ""
       ],
-      ["9a"],
+      [
+        "9a"
+      ],
       [
         "18.1.",
         "Mo",
@@ -134,7 +165,9 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "Entfall",
         ""
       ],
-      ["9b"],
+      [
+        "9b"
+      ],
       [
         "18.1.",
         "Mo",
@@ -149,7 +182,9 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "Entfall",
         ""
       ],
-      ["9c"],
+      [
+        "9c"
+      ],
       [
         "18.1.",
         "Mo",
@@ -164,7 +199,9 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "Entfall",
         ""
       ],
-      ["10a"],
+      [
+        "10a"
+      ],
       [
         "18.1.",
         "Mo",
@@ -193,7 +230,9 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "Vertretung",
         ""
       ],
-      ["10b"],
+      [
+        "10b"
+      ],
       [
         "18.1.",
         "Mo",
@@ -228,7 +267,9 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "Art",
         "Vertr. von / verlegt"
       ],
-      ["10c"],
+      [
+        "10c"
+      ],
       [
         "18.1.",
         "Mo",
@@ -243,7 +284,9 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
         "Entfall",
         ""
       ],
-      ["Jg2"],
+      [
+        "Jg2"
+      ],
       [
         "18.1.",
         "Mo",
@@ -262,3 +305,9 @@ docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -e FLATFORMAT="fal
   }
 ]
 ```
+
+## Advanced Feature
+
+The returned data can be customized by passing a list of ```extractors``` to the ```fetch``` method.
+There are some built-in extractors located in the
+```src/timetableHtmlExtractors``` folder, however, you can also create your own custom extractors if needed.
