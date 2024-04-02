@@ -76,7 +76,7 @@ class DsbUntis {
    * @param {Number} [port=8080] server port
    * @param {Object.<String, (String|Number|Function|Array)>} configuration
    */
-  listen(port = 8080, configuration = { extractors: [extractorTableMonList] }) {
+  listen(port = 8080, configuration = { extractors: [buildInHtmlExtractors.extractorTableMonList] }) {
     const requestListener = (req, res) => {
       res.setHeader("Content-Type", "application/json;charset=utf-8");
       this.fetch(configuration)
