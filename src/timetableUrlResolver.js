@@ -21,7 +21,7 @@ function isTimetableNode(dsbNode) {
   return dsbNode.Detail && `${dsbNode.Detail}`.endsWith("htm");
 }
 
-function resolveUrls(dsbNode, fn = isTimetableNode) {
+export default function resolveUrls(dsbNode, fn = isTimetableNode) {
   let answer = [];
 
   if (dsbNode) {
@@ -62,5 +62,3 @@ function resolveUrls(dsbNode, fn = isTimetableNode) {
 
   return answer;
 }
-
-module.exports = resolveUrls;

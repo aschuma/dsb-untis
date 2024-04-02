@@ -1,4 +1,4 @@
-function setup() {
+export default function setup() {
 
   // -----------------------------------------------------------
   // Credits to Jonathan Lonowski, see
@@ -21,5 +21,3 @@ function setup() {
   // -----------------------------------------------------------
   
 }
-
-module.exports = setup;

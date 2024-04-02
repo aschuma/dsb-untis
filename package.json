@@ -1,8 +1,9 @@
 {
   "name": "dsb-untis",
-  "version": "v0.5.1",
+  "version": "v0.6.0",
   "description": "DSB Untis timetable client/proxy server",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,11 +25,11 @@
   "author": "aschuma (https://github.com/aschuma)",
   "license": "MIT",
   "dependencies": {
-    "axios": "0.28.0",
-    "console-stamp": "3.0.4",
-    "dsbapi": "4.1.1",
-    "jquery": "3.6.3",
-    "jsdom": "19.0.0",
-    "node-fetch": "2.6.7"
+    "axios": "1.6.8",
+    "console-stamp": "3.1.2",
+    "jquery": "3.7.1",
+    "jsdom": "24.0.0",
+    "node-fetch": "3.3.2",
+    "pako": "2.1.0"
   }
 }

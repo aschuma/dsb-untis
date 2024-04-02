@@ -1,3 +1,5 @@
+import DsbUntis from "../src/index.js";
+
 /*
   My actual use case: Get my son's timetable changes and display them on an LED matrix
   (https://github.com/aschuma/max7219-led-matrix-clock-mqtt-display)
@@ -59,7 +61,6 @@ const collapse = (timetables) => {
 
 const clazz = "5c";
 
-const DsbUntis = require("../src/index.js");
 
 const username = process.env.USERNAME || "username";
 const password = process.env.PASSWORD || "password";
