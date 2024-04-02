@@ -1,0 +1,8 @@
+Note: Sources in the 'src/dsbai' directory, derived from 
+the branch 'snyk-fix-cc40e65606e8cf4b2e7d5fbabfa97dc4' 
+on the GitHub repository https://github.com/TheNoim/DSBAPI/, 
+are licensed under the Apache 2 License. Please adhere to 
+the terms of this license when using, modifying, or 
+distributing these sources.
+
+Thank you.

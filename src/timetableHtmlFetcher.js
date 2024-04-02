@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
 
 // -----------------------------------------------------------
 // Credits to Marlon Bernardes
@@ -13,7 +13,7 @@ function iso8859_1_StreamToString (stream) {
 }
 // -----------------------------------------------------------
 
-function fetchTimetables(urlList) {
+export default function fetchTimetables(urlList) {
 
   return Promise.all(
     urlList.map(
@@ -35,5 +35,3 @@ function fetchTimetables(urlList) {
     )
   );
 }
-
-module.exports = fetchTimetables;

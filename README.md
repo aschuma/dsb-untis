@@ -7,7 +7,7 @@
 ## Basic Usage
 
 ```javascript
-const DsbUntis = require('dsb-untis')
+import DsbUntis from 'dsb-untis';
 
 const username = "165931";
 const password = "secret";
@@ -23,7 +23,7 @@ dsbUntis.fetch().then((data) => {
 Start a HTTP server providing the data:
 
 ```javascript
-const DsbUntis = require('dsb-untis')
+import DsbUntis = from 'dsb-untis';
 
 const username = "165931";
 const password = "secret";
