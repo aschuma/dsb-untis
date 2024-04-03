@@ -25,7 +25,6 @@
   "author": "aschuma (https://github.com/aschuma)",
   "license": "MIT",
   "dependencies": {
-    "axios": "1.6.8",
     "console-stamp": "3.1.2",
     "jquery": "3.7.1",
     "jsdom": "24.0.0",
