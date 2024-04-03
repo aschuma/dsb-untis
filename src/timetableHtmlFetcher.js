@@ -11,10 +11,8 @@ function iso8859_1_StreamToString (stream) {
     stream.on('end', () => resolve(Buffer.concat(chunks).toString('latin1')))
   })
 }
-// -----------------------------------------------------------
 
 export default function fetchTimetables(urlList) {
-
   return Promise.all(
     urlList.map(
       (urlItem) =>

@@ -1,4 +1,4 @@
-import DSB from "./dsbapi/index.js";
+import dsbFetch from "./dsbapi/index.js";
 import { createServer } from "http";
 import buildInHtmlExtractors from "./timetableHtmlExtractors/index.js";
 import fetchTimetables from "./timetableHtmlFetcher.js";
@@ -17,7 +17,7 @@ class DsbUntis {
    * @param {String|Number} password
    */
   constructor(username, password) {
-    this.dsb = new DSB(username, password);
+    this.dsbFetch = () => dsbFetch(username, password);
   }
 
   /**
@@ -30,7 +30,8 @@ class DsbUntis {
       extractors: [buildInHtmlExtractors.extractorTableMonList],
     }
   ) {
-    const { extractors = [extractorTableMonList] } = configuration;
+    let { extractors } = configuration;
+    extractors = extractors || [buildInHtmlExtractors.extractorTableMonList];
     const buildInHtmlExtractorNames = Object.keys(buildInHtmlExtractors);
 
     console.debug("Configured extractors:", extractors);
@@ -49,7 +50,7 @@ class DsbUntis {
 
     console.debug("Resolved extractors:", resolvedExtractors);
 
-    const dsbNodes = await this.dsb.fetch();
+    const dsbNodes = await this.dsbFetch();
     if (dsbNodes.Resultcode === 0) {
       const urlList = resolveTimetableUrls(dsbNodes);
       const timetableHtmlList = await fetchTimetables(urlList);
@@ -76,7 +77,7 @@ class DsbUntis {
    * @param {Number} [port=8080] server port
    * @param {Object.<String, (String|Number|Function|Array)>} configuration
    */
-  listen(port = 8080, configuration = { extractors: [buildInHtmlExtractors.extractorTableMonList] }) {
+  listen(port = 8080, configuration = { extractors: [extractorTableMonList] }) {
     const requestListener = (req, res) => {
       res.setHeader("Content-Type", "application/json;charset=utf-8");
       this.fetch(configuration)

@@ -9,78 +9,39 @@
 
 import Encode from "./DSBEncoding.js";
 import Decode from "./DSBDecode.js";
-import axios from "axios";
+import fetch from "node-fetch";
 
-export default class DSB {
-  /**
-   *
-   * @param {String|Number} username
-   * @param {String|Number} password
-   */
-  constructor(username, password) {
-    /**
-     * @private
-     */
-    this.username = username;
-    /**
-     * @private
-     */
-    this.password = password;
-    /**
-     * @private
-     */
-    this.axios = axios;
-    /**
-     * @private
-     */
-    this.urls = {
-      Data: "https://app.dsbcontrol.de/JsonHandler.ashx/GetData",
-    };
+const DSB_URL = "https://app.dsbcontrol.de/JsonHandler.ashx/GetData";
 
-    /**
-     * @private
-     */
-    this.axios.defaults.headers.common["User-Agent"] =
-      "DSBmobile/9759 (iPhone; iOS 13.2.2; Scale/3.00)";
-  }
-
-  /**
-   * Fetch data
-   * @returns {Promise.<Object>}
-   */
-  async fetch() {
-    const response = await this.axios({
-      method: "POST",
-      data: {
-        req: {
-          Data: Encode({
-            PushId: "",
-            UserId: this.username,
-            UserPw: this.password,
-            Device: "iPhone",
-            AppVersion: "2.5.6",
-            Language: "en-DE",
-            Date: new Date(),
-            BundleId: "de.digitales-schwarzes-brett.dsblight",
-            OsVersion: "13.2.2",
-            LastUpdate: new Date(),
-            AppId: "BC86F8E5-5D4A-4A19-A317-04D1E52FF9ED",
-          }),
-          DataType: 1,
-        },
+const dsbFetch = async (username, password) => {
+  const response = await fetch(DSB_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      req: {
+        Data: Encode({
+          PushId: "",
+          UserId: username,
+          UserPw: password,
+          Device: "iPhone",
+          AppVersion: "2.5.6",
+          Language: "en-DE",
+          Date: new Date(),
+          BundleId: "de.digitales-schwarzes-brett.dsblight",
+          OsVersion: "13.2.2",
+          LastUpdate: new Date(),
+          AppId: "BC86F8E5-5D4A-4A19-A317-04D1E52FF9ED",
+        }),
+        DataType: 1,
       },
-      url: this.urls.Data,
-      onUploadProgress(e) {
-        console.log(JSON.stringify(e));
-      },
-      onDownloadProgress(e) {
-        console.log(JSON.stringify(e));
-      },
-    });
-    if (!response.data.d) throw new Error("Invalid data.");
-    return Decode(response.data.d);
-  }
-}
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      "User-Agent": "DSBmobile/9759 (iPhone; iOS 13.2.2; Scale/3.00)",
+    },
+  });
+  const data = await response.json(); // Assuming the server responds with JSON
+  if (!data.d) throw new Error("Invalid data.");
+  return Decode(data.d);
+};
 
-DSB.Decode = Decode;
-DSB.Encode = Encode;
+export default dsbFetch;
