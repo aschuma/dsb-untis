@@ -1,4 +1,4 @@
-FROM node:16.4.2-slim
+FROM node:alpine
 
 ENV USERNAME="username" \
     PASSWORD="secret" \
