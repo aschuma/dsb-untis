@@ -1,8 +1,9 @@
-FROM node:16.4.2-slim
+FROM node:20-slim
 
 ENV USERNAME="username" \
     PASSWORD="secret" \
     FLATMODE="true" \
+    DEBUG="false" \
     TZ="Europe/Berlin"
 
 WORKDIR /usr/src/app

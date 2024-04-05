@@ -1,5 +1,4 @@
-function setup() {
-
+export default function setup() {
   // -----------------------------------------------------------
   // Credits to Jonathan Lonowski, see
   // https://stackoverflow.com/questions/18391212/is-it-not-possible-to-stringify-an-error-using-json-stringify
@@ -19,7 +18,4 @@ function setup() {
     });
   }
   // -----------------------------------------------------------
-  
 }
-
-module.exports = setup;
