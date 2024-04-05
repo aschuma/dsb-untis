@@ -1,6 +1,6 @@
 {
   "name": "dsb-untis",
-  "version": "v0.6.1",
+  "version": "v0.6.2",
   "description": "DSB Untis timetable client/proxy server",
   "main": "src/index.js",
   "type": "module",
