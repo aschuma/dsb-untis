@@ -1,5 +1,5 @@
-const defaultHtmlExtractors = require("./defaultHtmlExtractors")
+import defaultHtmlExtractors from "./defaultHtmlExtractors.js";
 
-module.exports = {
-  ...defaultHtmlExtractors
+export default {
+  ...defaultHtmlExtractors,
 };

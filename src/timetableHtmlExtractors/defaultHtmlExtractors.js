@@ -1,8 +1,8 @@
-const jsdom = require("jsdom");
-const jquery = require("jquery");
+import jsdom from "jsdom";
+import jquery from "jquery";
 
 function divMonTitle(html) {
-  const {JSDOM} = jsdom;
+  const { JSDOM } = jsdom;
   const dom = new JSDOM(html);
   const $ = jquery(dom.window);
 
@@ -13,11 +13,11 @@ function divMonTitle(html) {
   }
   console.debug(title.length + " -> ", header);
 
-  return {header: header};
+  return { header: header };
 }
 
 function tableInfo(html) {
-  const {JSDOM} = jsdom;
+  const { JSDOM } = jsdom;
   const dom = new JSDOM(html);
   const $ = jquery(dom.window);
 
@@ -25,7 +25,10 @@ function tableInfo(html) {
   const items = $("table.info");
   for (let i = 0; i < items.length; i++) {
     const result = [];
-    const cells = [...$($(items)[i]).children("th"), ...$($(items)[i]).children("td"),];
+    const cells = [
+      ...$($(items)[i]).children("th"),
+      ...$($(items)[i]).children("td"),
+    ];
     for (let j = 0; j < cells.length; j++) {
       const rawCell = $(cells[j]).html();
       const cell = "&nbsp;" === rawCell ? "" : rawCell;
@@ -37,12 +40,11 @@ function tableInfo(html) {
 
   console.debug(items.length + " -> ", table);
 
-  return {infoTable: table};
+  return { infoTable: table };
 }
 
-
 function tableMonList(html) {
-  const {JSDOM} = jsdom;
+  const { JSDOM } = jsdom;
   const dom = new JSDOM(html);
   const $ = jquery(dom.window);
 
@@ -50,7 +52,10 @@ function tableMonList(html) {
   const table = [];
   for (let i = 0; i < items.length; i++) {
     const result = [];
-    const cells = [...$($(items)[i]).children("th"), ...$($(items)[i]).children("td"),];
+    const cells = [
+      ...$($(items)[i]).children("th"),
+      ...$($(items)[i]).children("td"),
+    ];
     for (let j = 0; j < cells.length; j++) {
       const rawCell = $(cells[j]).html();
       const strikeCell = $(cells[j]).find("strike").html();
@@ -63,11 +68,11 @@ function tableMonList(html) {
     table.push(result);
   }
   console.debug(items.length + " -> ", table);
-  return {table};
+  return { table };
 }
 
 function tableMonListFlat(html) {
-  const flatten = table => {
+  const flatten = (table) => {
     let currentClass = "";
     return table
       .map((cells) => {
@@ -83,15 +88,13 @@ function tableMonListFlat(html) {
       .filter((cells) => cells != null);
   };
 
-  let {table} = tableMonList(html);
-  return {table: flatten(table)};
+  let { table } = tableMonList(html);
+  return { table: flatten(table) };
 }
 
-module.exports = {
+export default {
   extractorDivMonTitle: divMonTitle,
   extractorTableInfo: tableInfo,
   extractorTableMonList: tableMonList,
   extractorTableMonListFlat: tableMonListFlat,
 };
-
-
