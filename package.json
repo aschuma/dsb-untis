@@ -25,10 +25,10 @@
   "author": "aschuma (https://github.com/aschuma)",
   "license": "MIT",
   "dependencies": {
-    "console-stamp": "3.1.2",
-    "jquery": "3.7.1",
-    "jsdom": "24.0.0",
-    "node-fetch": "3.3.2",
-    "pako": "2.1.0"
+    "console-stamp": "^3.1.2",
+    "jquery": "^3.7.1",
+    "jsdom": "^20.0.0",
+    "node-fetch": "^3.3.2",
+    "pako": "^2.1.0"
   }
 }
