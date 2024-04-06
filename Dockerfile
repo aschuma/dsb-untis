@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:alpine3.18
 
 ENV USERNAME="username" \
     PASSWORD="secret" \
