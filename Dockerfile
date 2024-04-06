@@ -1,4 +1,4 @@
-FROM node:alpine3.18
+FROM node:16-slim
 
 ENV USERNAME="username" \
     PASSWORD="secret" \
@@ -8,8 +8,13 @@ ENV USERNAME="username" \
 
 WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm install
-RUN npm audit fix
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get clean autoclean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* \
+    && npm install \
+    && npm audit fix
+    
 COPY . .
 EXPOSE 8080
 CMD [ "node", "docker/server.js" ]
