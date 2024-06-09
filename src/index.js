@@ -5,7 +5,7 @@ import fetchTimetables from "./timetableHtmlFetcher.js";
 import resolveTimetableUrls from "./timetableUrlResolver.js";
 
 import consoleStamp from "console-stamp";
-consoleStamp(console, "yyyy-MM-dd HH:mm:ss");
+consoleStamp(console, "yyyy-mm-dd HH:MM:ss");
 
 import jsonHelper from "./jsonHelper.js";
 jsonHelper();
