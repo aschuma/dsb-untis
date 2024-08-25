@@ -20,7 +20,7 @@ dsbUntis.fetch().then((data) => {
 
 ## Server Mode
 
-Start a HTTP server providing the data:
+Start an HTTP server on port 8080 to serve the data using the subsequent javascript code. You can use `curl` or your web browser to retrieve the data by accessing `http://localhost:8080`:
 
 ```javascript
 import DsbUntis = from 'dsb-untis';
@@ -29,7 +29,7 @@ const username = "165931";
 const password = "secret";
 
 const dsbUntis = new DsbUntis(username, password);
-dsbUntis.listen(9000);
+dsbUntis.listen(8080);
 ```
 
 ## Server Mode / Docker Image
@@ -39,6 +39,8 @@ Supported platforms:
 * linux/amd64
 * linux/arm64
 * linux/arm/v7 (PI 4B)
+
+Start an HTTP server on port 8080 to serve the data using the subsequent shell command. You can use `curl` or your web browser to retrieve the data by accessing `http://localhost:8080`.
 
 ```shell
 docker run --rm  -d -e USERNAME="165931" -e PASSWORD="secret" -p 8080:8080  aschuma/dsb-untis:latest
