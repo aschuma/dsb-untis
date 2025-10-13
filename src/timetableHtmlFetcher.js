@@ -1,5 +1,4 @@
 import fetch from "node-fetch";
-import https from "https";
 
 // -----------------------------------------------------------
 // Credits to Marlon Bernardes
@@ -13,17 +12,12 @@ function iso8859_1_StreamToString (stream) {
   })
 }
 
-// Custom agent that disables SSL certificate verification
-const httpsAgent = new https.Agent({
-  rejectUnauthorized: false,
-});
-
 export default function fetchTimetables(urlList) {
   return Promise.all(
     urlList.map(
       (urlItem) =>
         new Promise((resolve, reject) => {
-          fetch(urlItem.url, { agent: httpsAgent })
+          fetch(urlItem.url)
             .then((res) => res.body)
             .then(iso8859_1_StreamToString)
             .then((res) =>
