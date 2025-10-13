@@ -1,4 +1,4 @@
-FROM node:16.20-slim
+FROM node:24.10-slim
 
 ENV USERNAME="username" \
     PASSWORD="secret" \
